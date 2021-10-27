@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/stylesheets/all.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Krona+One&family=Noto+Sans+TC:wght@500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="node_modules/bootstrap-icons/font/bootstrap-icons.css">
+    <title>Document</title>
+    <style>
+        .kronaFont{
+            font-family: 'Krona One', sans-serif;
+        }
+
+        .notoFont{
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+
+        .convertedCard:hover{
+            -webkit-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+            transition: ease-out 0.5s;
+        }
+        body::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+            background-color: #EDEDED;
+        }
+        body::-webkit-scrollbar {
+            width: 6px;
+            background-color: black;
+        }
+        body::-webkit-scrollbar-thumb {
+            background-color: #9C9C9C;
+            border-radius:20px;
+        }
+    </style>
+    <title>MindReader MVP Test</title>
+</head>
+<body style="background-color: #F4F4F4;">
+    <div class="container-fluid pt-0 m-0 shadow p-2 mb-3 " style="background-color: #FEEEC9; border-radius: 0em 0em 3em 3em;">
+        <div class="container">
+            <div class="row pt-2 py-3 align-items-center " >
+                <div class="col-12 col-md-5 text-primaryblue">
+                    <div class="mb-3">
+                        <h1 class="kronaFont px-0 py-0 mx-0 my-0">Mind Reader</h1>
+                        <h2 class="notoFont px-0 py-0 mx-0 my-0">與你心譯相通</h2>
+                    </div>
+                    
+                </div>
+                <div class="col-12 col-md-7 d-md-flex d-none">
+                    <img src="assets/images/homeCover.svg" alt="Person has a virtual assistant" style="max-width: 450px;" srcset="" class="mx-auto">
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    
+    <div style="min-height: 100vh;" class="notoFont ">
+        <div class="container card my-4" id="resultArea">
+            <div class="row card-body p-0 ">
+                <div class="col-12 py-2">
+                    <div class=" row align-items-center my-0">
+                        <label for="selectmode" class="col-sm-auto py-0 my-0  h4">關係選擇：</label>
+                        <div class="col-sm">
+                            <select class="form-control" id="selectmode">
+                                <option value="0">一般朋友</option>
+                                <option value="1">情人</option>
+                                <option value="2">曖昧對象</option>
+                                <option value="3">父母</option>
+                                <option value="4">摯友</option>
+                                <option value="5">長輩</option>
+                                <option value="6">親戚</option>
+                                <option value="7">主管</option>
+                                <option value="8">同事</option>
+                                <option value="9">客戶</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row card-body p-0 ">
+                <div class="col-12  col-lg  card rounded-0">
+                    <div class="card-body p-0">
+                        <textarea class="form-control mt-1 m-0 border-0 py-3" 
+                            style="min-height: 15rem; resize:none; font-size: 1.5rem;"
+                            onkeyup="autogrow(this); OC_Convert()"
+                            id="TA_setWord"
+                            placeholder="輸入文字"></textarea>
+                    </div>
+                    <div class="mb-2 d-flex">
+                        <button class="btn" id="cleanwordbtn" data-clipboard-target="#texinfo"
+                            data-toggle="tooltip" data-placement="right" title="重設輸入的文字"
+                            onclick="cleanWord(document.getElementById('TA_setWord'))">
+                            <i class="bi bi-bootstrap-reboot"></i>
+                        </button>
+                        <button class="btn btn-primaryblue ml-auto" id="convertbtn" onclick="OC_Convert()">
+                            <i class="bi bi-arrow-right-circle mr-2"></i>開始轉換
+                        </button>
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg card rounded-0">
+                    <!--Item S
+                        <div class="row px-0 pt-2 mx-0">
+                            <div class="d-flex col-12 align-content-center border-bottom p-0 m-0">
+                                <p class="d-flex flex-fill my-auto ">
+                                    123123123
+                                </p>
+                                <div class="">
+                                    <button class="btn copyFuncBtn" id="copybtn"
+                                        data-clipboard-text="#TA_convertedArea">
+                                        <i class="bi bi-clipboard"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        Item E-->
+                    <div class="card-body p-0">
+                        <div id="ans_div">
+                            <div class="align-items-center pb-3">
+                                <div class="d-flex row justify-content-center">
+                                    <img src="assets/images/writing.gif" style="max-width: 300px;">
+                                </div>
+                                <p class="text-center h5 notoFont ">輸入 <span class="text-primaryblue">文字</span> 體驗轉譯修飾的魔力</p>
+                            </div>    
+                        </div>
+
+                        <!--
+                        <div class="row mb-1">
+                            <div class="col-auto">
+                                <button class="btn copyFuncBtn" id="copybtn" data-clipboard-target="#TA_convertedArea">
+                                    <i class="bi bi-clipboard"></i>
+                                </button>
+                            </div>
+                            <div class="col p-0 m-0 align-self-center d-none">
+                                <div class="d-flex p-0 m-0 ">
+                                    <a class="badge badge-pill mr-1" style="background-color: #182848;color: #F4F4F4;">#Primary</a>
+                                    <a class="badge badge-pill mr-1">#Number</a>
+                                    <a class="badge badge-pill mr-1">#Number</a>
+                                </div>
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                </div>
+
+                
+            </div>
+                
+        </div>
+        <div class="container bg-white rounded  mb-5" style="min-height: 400px;">
+            <h4 class="pt-3">話題推薦</h4>
+            <div class="row">
+                <div class="col-12 pt-2">
+                    <nav>
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                            <a class="nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">今日熱門</a>
+                            <!--
+                            <a class="nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</a>
+                            <a class="nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</a>
+                            -->
+                        </div>
+                    </nav>
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                            <div class="row px-0 mx-0" id="trendsHot">
+                                <div class="col-12 pt-2 px-0 mx-0 d-flex border-bottom align-content-center">
+                                    <div class="row no-gutter flex-column" style="width: 100%; min-height: 40px;">
+                                        <div class="d-flex justify-content-center">
+                                            <img src="assets/images/jam.gif" alt="too many people use" style="max-width: 300px; width: 100%;" class="">
+                                        </div> 
+                                        <p class="d-flex mt-0 py-0 align-self-center col justify-content-center font-weight-bolder mb-3">
+                                            現在有點多人看，喝杯咖啡用按鈕重載一下吧
+                                        </p>
+                                        <button class="btn copyFuncBtn col-auto d-none" id="copybtn" data-clipboard-text="TEXT"><i class="bi bi-clipboard"></i></button>
+                                    </div>
+                                </div>
+                                <!--
+                                    <div class="col-12 pt-2 px-0 mx-0 d-flex border-bottom align-content-center">
+                                        <div class="row no-gutter" style="width: 100%;">
+                                            <p class="d-flex my-0 py-0 align-self-center col">'+sentence+'</p>
+                                            <a href="https://www.google.com/search?q='+sentence+'" class="btn col-auto">
+                                                <i class="bi bi-google"></i>
+                                            </a>
+                                            <button class="btn copyFuncBtn col-auto" id="copybtn" data-clipboard-text="'+sentence+'">
+                                                <i class="bi bi-clipboard"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                -->
+                            </div>
+                            <button type="button" class="btn btn-light btn-block mt-1 mb-3" onclick="getTrends()">重新載入</button>
+                        </div>
+                        <!--
+                        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">...</div>
+                        <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
+                        -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-end my-3 px-3 fixed-bottom">
+            <button type="button" class="btn btn-light" data-toggle="modal" data-target="#exampleModal">
+                <i class="bi bi-hdd-network"></i>
+            </button>                                
+        </div>
+    </div>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><i class="bi bi-link-45deg mr-1"></i>設定API Token</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">API Token</label>
+                        <input type="email" class="form-control" id="apiUrlInput" value="https://404b-122-116-108-113.ngrok.io" aria-describedby="emailHelp">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <script>
+        function cleanWord(textarea) {
+            textarea.value = "";
+        }
+    </script>
+    
+    <script src="assets/script/convert.js"></script>
+    <script src="assets/script/trendsGet.js"></script>
+
+    <script>
+        
+        //let putplace = document.getElementById("ans_div");
+        let outputDiv = "";
+        
+        function OC_Convert() {
+            document.getElementById("ans_div").innerHTML = outputDiv;
+            outputDiv='<div class="align-items-center"><div class="d-flex row pt-2 justify-content-center"><img src="assets/images/loading.gif" style="max-width: 200px;"></div><p class="text-center font-weight-bolder">載入中...請稍後</p></div>';
+            document.getElementById("ans_div").innerHTML = outputDiv;
+            /*let nodeParent = document.getElementById("ans_div");
+            while(nodeParent.firstChild) {
+                nodeParent.removeChild(nodeParent.firstChild);
+            }*/
+            
+            console.log(document.getElementById("TA_setWord").value + "," + document.getElementById("selectmode").value);
+            let getWord = document.getElementById("TA_setWord").value;
+            let getMode = document.getElementById("selectmode").value;
+            
+            MR_convertWord(getWord,getMode);
+            outputDiv = '';
+        }
+        function printData(getArray){
+            console.log(getArray)
+            try {
+                for(let i=0 ; i < getArray.length ; i++) {
+                    outputDiv += createDivElement(getArray[i]);
+                    document.getElementById("ans_div").innerHTML = outputDiv;
+                }    
+            } catch (error) {
+                outputDiv='<div class="align-items-center"><div class="d-flex row pt-2 justify-content-center"><img src="assets/images/loading.gif" style="max-width: 200px;"></div><p class="text-center font-weight-bolder">載入中...請稍後</p></div>';
+                document.getElementById("ans_div").innerHTML = outputDiv;
+                outputDiv = '';
+            }
+            
+            outputDiv="";
+        }
+
+        function getTrends() {
+            let type = 'hot'
+            let outputTrendsDiv = ''
+            let getArrayOfTrends = getTrendSentence(type)
+            console.log(getArrayOfTrends);
+            for (let index = 0; index < getArrayOfTrends.length; index++) {
+                const element = getArrayOfTrends[index];
+                //console.log(element.sentence)
+                //console.log('--------------------------------')
+                outputTrendsDiv += createDivOfTrend(element.sentence,element.keyword);
+                // console.log(element);
+            }
+            
+            let outputArea = document.getElementById('trendsHot').innerHTML = outputTrendsDiv
+        }
+
+        function createDivElement(temp_word) {
+            return "<div class='row px-0 pt-2 mx-0' id='anslist'><div class='d-flex col-12 align-content-center border-bottom p-0 m-0'><p class='d-flex flex-fill my-auto '>"+temp_word+"</p><div><button class='btn copyFuncBtn' id='copybtn' data-clipboard-text='"+temp_word+"'><i class='bi bi-clipboard'></i></button></div></div></div>";
+        }
+
+        function createDivOfTrend(sentence,keyword) {
+            return '<div class="col-12 pt-2 px-0 mx-0 d-flex border-bottom align-content-center"><div class="row no-gutter" style="width: 100%;"><p class="d-flex my-0 py-0 align-self-center col">'+sentence+'</p><a href="https://www.google.com/search?q='+keyword+'" target="_blank" class="btn col-auto"><i class="bi bi-google"></i></a><button class="btn copyFuncBtn col-auto" id="copybtn" data-clipboard-text="'+sentence+'"><i class="bi bi-clipboard"></i></button></div></div>'
+        }
+    </script>
+    <!--
+    <div class='row px-0 pt-2 mx-0'>
+        <div class='d-flex col-12 align-content-center border-bottom p-0 m-0'>
+            <p class='d-flex flex-fill my-auto '>"+temp_word+"</p>
+            <div><button class='btn copyFuncBtn' id='copybtn' data-clipboard-text='"+temp_word+"'><i
+                        class='bi bi-clipboard'></i></button></div>
+        </div>
+    </div>
+    -->
+
+    <script>
+
+        function autogrow(textarea){
+            var adjustedHeight=textarea.clientHeight;
+            adjustedHeight=Math.max(textarea.scrollHeight,adjustedHeight);
+            if (adjustedHeight>textarea.clientHeight){
+                textarea.style.height=adjustedHeight+'px';
+            }
+        }
+
+        function TAfunc(textarea) {
+            autogrow(textarea)
+        }
+
+    </script>
+
+    
+    <script src="node_modules/clipboard/dist/clipboard.min.js"></script>
+    <script>
+        var clipboard = new ClipboardJS(".copyFuncBtn");
+        clipboard.on('success', function (e) {
+        console.log(e);
+        });
+
+        clipboard.on('error', function (e) {
+        console.log(e);
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous">
+    </script>
+    <script src="node_modules/bootstrap/js/dist/button.js"></script>
+    <script src="node_modules/bootstrap/js/dist/alert.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
+    <!--Firebase-->
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <!--<script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-app.js"></script>-->
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+    <!--<script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-analytics.js"></script>-->
+<!-- on 
+    <script>
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        var firebaseConfig = {
+            apiKey: "AIzaSyDBz7QjtX1OA2Nu9eUSzgwAp1WYoiIF9ck",
+            authDomain: "mind-reader-demo.firebaseapp.com",
+            projectId: "mind-reader-demo",
+            storageBucket: "mind-reader-demo.appspot.com",
+            messagingSenderId: "601929923693",
+            appId: "1:601929923693:web:d358d798f6420632595364",
+            measurementId: "G-TJYL9FHZW8"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+    </script>
+-->
+</body>
+</html>
