@@ -19,7 +19,7 @@ requestCon.onerror = function () {
     console.log('error')
 }
 
-function mrConvertSentence(word) {
+function mrConvertSentence(word,mode) {
     let strings = word; 
     if (strings.replace(/(^s*)|(s*$)/g, "").length ==0) 
     { 
@@ -28,7 +28,7 @@ function mrConvertSentence(word) {
     else {
         let apiUrl = 'http://127.0.0.1:5000'
         apiUrl = document.getElementById('apiUrlInput').value
-        let out = apiUrl + '/?oSentence=' + word
+        let out = apiUrl + '/?oSentence=' + word + '&relationType=' + mode
         requestCon.open('post', out, true)
         requestCon.send()
     }
@@ -40,7 +40,7 @@ function getConvertData(json) {
 
 function MR_convertWord(inputString,mode) {
     let outputValue = ['$MR NeedWait']
-    mrConvertSentence(inputString)
+    mrConvertSentence(inputString,mode)
 }
 
 function showValue() {

@@ -66,17 +66,18 @@
                     <div class=" row align-items-center my-0">
                         <label for="selectmode" class="col-sm-auto py-0 my-0  h4">關係選擇：</label>
                         <div class="col-sm">
-                            <select class="form-control" id="selectmode">
-                                <option value="0">一般朋友</option>
-                                <option value="1">情人</option>
-                                <option value="2">曖昧對象</option>
-                                <option value="3">父母</option>
-                                <option value="4">摯友</option>
-                                <option value="5">長輩</option>
-                                <option value="6">親戚</option>
-                                <option value="7">主管</option>
-                                <option value="8">同事</option>
-                                <option value="9">客戶</option>
+                            <select class="form-control" id="selectmode" value='' onchange="OC_Convert()">
+                                <option value="0">選擇模式</option>
+                                <option value="1">一般朋友</option>
+                                <option value="2">情人</option>
+                                <option value="3">曖昧對象</option>
+                                <option value="4">父母</option>
+                                <option value="5">摯友</option>
+                                <option value="6">長輩</option>
+                                <option value="7">親戚</option>
+                                <option value="8">主管</option>
+                                <option value="9">同事</option>
+                                <option value="10">客戶</option>
                             </select>
                         </div>
                     </div>
